@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>简单购物车</title>
+  <script src="https://cdn.bootcss.com/vue/2.6.8/vue.min.js"></script>
+  <style>
+.line{
+  display: flex;
+  margin: 10px 0;
+}
+span{
+  margin: 0 6px;
+  display: inline-flex;
+  width: 20px;
+}
+.line input{
+  width: 60px;
+}
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="line" v-for="(list,index) in prices" :key="index">
+    <span @click="add(index)">+</span>
+    <input type="text" v-model="list.num">
+    <span @click="reduce(index)">-</span>
+    <div class="name">{{list.name}}</div>
+    <div class="price">{{list.price}}</div>
+  </div>
+  <div class="total">
+    总价：{{total}}
+  </div>
+</div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        prices: [
+          {name: '飞机杯', num: 0,price:36.5},
+          {name: '充气娃娃',num: 0,price:40},
+          {name: ' 延时喷剂',num: 0,price:42}
+        ]
+      },
+      computed: {
+        total(){
+            return this.prices.reduce((prev,current)=>{
+             return prev+ current.num*current.price
+           },0)
+        }
+      },
+      methods: {
+        add(index){
+          this.prices[index].num++
+        },
+        reduce(index){
+          if(this.prices[index].num == 0){
+            return
+          }
+          this.prices[index].num--
+        }
+     }
+    })
+  </script>
+</body>
+</html>
